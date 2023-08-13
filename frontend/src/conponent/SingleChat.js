@@ -16,7 +16,7 @@ import ScrollableChat from './ScrollableChat';
 import animationData from "../animations/typing.json";
 
 import socketIo from "socket.io-client"
-const ENDPOINT = "https://howdy-dvce9k6v0-vikaxxh.vercel.app";
+const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare ;
 
 const SingleChat = ({fetchAgain, setFetchAgain}) => {
