@@ -74,6 +74,26 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
     }
   };
 
+  useEffect(() => {
+    socket = socketIo(ENDPOINT, {transports: ['websocket']});
+    socket.emit("setup", user);
+    socket.on('connected',() =>  setSocketConnected(true))
+    socket.on('typing',() => setIsTyping(true))
+    socket.on('stop typing',() => setIsTyping(false))
+
+  }, [])
+
+
+   
+  useEffect(() => {
+    
+    fetchMessages();
+    selectedChatCompare = selectedChat;
+     
+    }, [selectedChat])
+  
+  
+
   const sendMessage = async (event) => {
     if(event.key === "Enter" && newMessage){
       socket.emit("stop typing", selectedChat._id);
@@ -108,23 +128,6 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
       }
     }
   }
-
-  useEffect(() => {
-    socket = socketIo(ENDPOINT, {transports: ['websocket']});
-    socket.emit("setup", user);
-    socket.on('connected',() =>  setSocketConnected(true))
-    socket.on('typing',() => setIsTyping(true))
-    socket.on('stop typing',() => setIsTyping(false))
-
-  }, [])
-  
-  useEffect(() => {
-    
-    fetchMessages();
-    selectedChatCompare = selectedChat;
-     
-    }, [selectedChat])
-  
   
 
   useEffect(() => {
