@@ -1,15 +1,12 @@
 const express = require('express');
-const { chats } = require('./dummyData/data');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db')
 const color = require('colors');
 const userRoute = require('./Routes/userRoute');
 const chatRoutes = require('./Routes/chatRoute')
 const {notFound, errorHandler} = require('./middleware/errorMiddlerware')
-const messageRoute = require('./Routes/messageRoute')
-const cors = require('cors')
-const socketIo = require("socket.io");
-const http = require("http");
+const messageRoute = require('./Routes/messageRoute');
+
 const path = require("path")
 
 const app = express();
@@ -48,12 +45,21 @@ if (process.env.NODE_ENV === "production") {
 app.use(errorHandler);
 app.use(notFound);
 
-app.use(cors());
-
-const server = http.createServer(app);
 
 
-const io = socketIo(server);
+const server = app.listen(
+    PORT,
+    console.log(`Server running on PORT ${PORT}...`.yellow.bold)
+  );
+
+
+const io = require("socket.io")(server, {
+    pingTimeout: 60000,
+    cors: {
+      origin: "http://localhost:3000",
+      // credentials: true,
+    },
+  });
 
 io.on("connection",(socket) =>{
 console.log('connected to socket.io');
@@ -93,4 +99,3 @@ socket.on('new message', (newMessageRecieved) =>{
 
 })
 
- server.listen('5000', console.log(`server is running on PORT ${PORT}`.yellow))
