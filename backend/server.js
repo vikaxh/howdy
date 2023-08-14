@@ -6,10 +6,15 @@ const userRoute = require('./Routes/userRoute');
 const chatRoutes = require('./Routes/chatRoute')
 const {notFound, errorHandler} = require('./middleware/errorMiddlerware')
 const messageRoute = require('./Routes/messageRoute');
+const socketIo = require("socket.io");
+const cors = require("cors");
+
 
 const path = require("path")
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 dotenv. config();
@@ -53,13 +58,7 @@ const server = app.listen(
   );
 
 
-const io = require("socket.io")(server, {
-    pingTimeout: 60000,
-    cors: {
-      origin: "http://localhost:3000",
-      // credentials: true,
-    },
-  });
+  const io=socketIo(server);
 
 io.on("connection",(socket) =>{
 console.log('connected to socket.io');

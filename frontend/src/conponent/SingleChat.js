@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ChatState } from '../context/ChatProvider'
-import { Box, useStatStyles } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { Text } from "@chakra-ui/layout";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
@@ -14,8 +14,7 @@ import "./styles.css"
 import Lottie from "react-lottie";
 import ScrollableChat from './ScrollableChat';
 import animationData from "../animations/typing.json";
-
-import io from "socket.io-client";
+import socketIo from 'socket.io-client'
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare ;
 
@@ -75,13 +74,13 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
   };
 
   useEffect(() => {
-    socket = io(ENDPOINT);
+    socket = socketIo(ENDPOINT, {transports: ['websocket']});
     socket.emit("setup", user);
     socket.on('connected',() =>  setSocketConnected(true))
     socket.on('typing',() => setIsTyping(true))
     socket.on('stop typing',() => setIsTyping(false))
 
-  }, [])
+  },[])
 
 
    
