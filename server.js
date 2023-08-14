@@ -51,14 +51,21 @@ app.use(errorHandler);
 app.use(notFound);
 
 
-
 const server = app.listen(
     PORT,
     console.log(`Server running on PORT ${PORT}...`.yellow.bold)
   );
 
 
-  const io=socketIo(server);
+  const io = require('socket.io')(server,{
+    cors: {
+      origin: '*',
+      methods: 'GET,PUT,POST,DELETE,OPTIONS'.split(','),
+      credentials: true
+    }
+  });
+
+
 
 io.on("connection",(socket) =>{
 console.log('connected to socket.io');
