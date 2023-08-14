@@ -2,10 +2,9 @@
     "version": 2,
     "name": "howdy",
     "builds": [
-        { "src": "/", "use": "@vercel/npm run build" },
-       { "src": "./backend/server.js", "use": "@vercel/node" }
+       { "src": "/server.js", "use": "@vercel/node" }
     ],
     "routes": [
-       { "src": "/(.*)", "dest": "./backend/server.js" }
+       { "src": "/(.*)", "dest": "server.js" }
     ]
  }
