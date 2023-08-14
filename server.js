@@ -58,11 +58,7 @@ const server = app.listen(
   );
 
 
-  const io=socketIo(server, {
-    cors: "*",
-    transports: ["websocket"],
-    pingTimeout: 60000
-  });
+  const io=socketIo(server);
 
 io.on("connection",(socket) =>{
 console.log('connected to socket.io');
