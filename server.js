@@ -1,7 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const connectDB = require('./backend/config/db')
-const color = require('colors');
+const connectDB = require('./backend/config/db') 
 const userRoute = require('./backend/Routes/userRoute');
 const chatRoutes = require('./backend/Routes/chatRoute')
 const {notFound, errorHandler} = require('./backend/middleware/errorMiddlerware')
@@ -58,7 +57,9 @@ const server = app.listen(
   );
 
 
-  const io=socketIo(server);
+  const io=socketIo(server,  {pingTimeout: 60000,
+    transports: ["websocket"]
+  });
 
 io.on("connection",(socket) =>{
 console.log('connected to socket.io');

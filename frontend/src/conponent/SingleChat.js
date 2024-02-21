@@ -74,11 +74,7 @@ const SingleChat = ({fetchAgain, setFetchAgain}) => {
   };
 
   useEffect(() => {
-    socket = socketIo(ENDPOINT,  {  
-      cors: {
-      origin: "http://localhost:5000",
-      credentials: true
-    },transports: ['websocket']});
+    socket = socketIo(ENDPOINT,  { pingTimeout: 60000,transports: ['websocket']});
     socket.emit("setup", user);
     socket.on('connected',() =>  setSocketConnected(true))
     socket.on('typing',() => setIsTyping(true))
